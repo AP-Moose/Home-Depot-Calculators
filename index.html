@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Home Depot Calculators</title>
+    <title>D23 & D59</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
         body {
@@ -88,6 +88,37 @@
             padding: 20px;
         }
 
+        .subtab {
+            overflow: hidden;
+            border-bottom: 1px solid #ccc;
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .subtab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 10px 12px;
+            transition: 0.3s;
+            color: white;
+            font-size: 14px;
+        }
+
+        .subtab button:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .subtab button.active {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .subtabcontent {
+            display: none;
+            padding: 15px;
+        }
+
         @media screen and (max-width: 600px) {
             body {
                 font-size: 14px;
@@ -100,13 +131,14 @@
     </style>
 </head>
 <body>
-    <h1>Home Depot Calculators</h1>
+    <h1>D23 & D59</h1>
     <main>
         <section>
             <div class="tab">
                 <button class="tablinks active" onclick="openCalculator(event, 'carpet')">Carpet</button>
                 <button class="tablinks" onclick="openCalculator(event, 'flooring')">Flooring</button>
                 <button class="tablinks" onclick="openCalculator(event, 'blinds')">Blinds</button>
+                <button class="tablinks" onclick="openCalculator(event, 'rolledGoods')">Rolled Goods</button>
             </div>
 
             <div id="carpet" class="tabcontent" style="display: block;">
@@ -206,10 +238,73 @@
                     </tr>
                 </table>
             </div>
+
+            <div id="rolledGoods" class="tabcontent">
+                <h2>Rolled Goods Calculator</h2>
+                <div class="subtab">
+                    <button class="subtablinks active" onclick="openSubCalculator(event, 'lnft')">LN FT</button>
+                    <button class="subtablinks" onclick="openSubCalculator(event, 'sqyd')">SQ YD</button>
+                </div>
+
+                <div id="lnft" class="subtabcontent" style="display: block;">
+                    <h3>Inventory Worksheet - LN FT</h3>
+                    <table>
+                        <tr>
+                            <td><label for="entireRoll">The diameter of the entire roll:</label></td>
+                            <td><input type="number" id="entireRoll" placeholder="inches" step="0.01" oninput="calculateLNFT()"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="tube">The diameter of the tube:</label></td>
+                            <td><input type="number" id="tube" placeholder="inches" step="0.01" oninput="calculateLNFT()"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="rings">Number of rings:</label></td>
+                            <td><input type="number" id="rings" placeholder="# Rings" oninput="calculateLNFT()"></td>
+                        </tr>
+                        <tr>
+                            <td>Linear Feet:</td>
+                            <td><span id="linearFeet"># Linear Feet</span></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div id="sqyd" class="subtabcontent">
+                    <h3>Inventory Worksheet - SQ YD</h3>
+                    <table>
+                        <tr>
+                            <td><label for="entireRollSQ">The diameter of the entire roll:</label></td>
+                            <td><input type="number" id="entireRollSQ" placeholder="inches" step="0.01" oninput="calculateSQYD()"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="tubeSQ">The diameter of the tube:</label></td>
+                            <td><input type="number" id="tubeSQ" placeholder="inches" step="0.01" oninput="calculateSQYD()"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="ringsSQ">Number of rings:</label></td>
+                            <td><input type="number" id="ringsSQ" placeholder="# Rings" oninput="calculateSQYD()"></td>
+                        </tr>
+                        <tr>
+                            <td>Roll Width:</td>
+                            <td>
+                                <div class="radio-group">
+                                    <label><input type="radio" name="rollWidth" value="0.0872" checked onchange="calculateSQYD()"> 6'</label>
+                                    <label><input type="radio" name="rollWidth" value="0.1454" onchange="calculateSQYD()"> 10'</label>
+                                    <label><input type="radio" name="rollWidth" value="0.1744" onchange="calculateSQYD()"> 12'</label>
+                                    <label><input type="radio" name="rollWidth" value="0.2182" onchange="calculateSQYD()"> 15'</label>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Square Yards:</td>
+                            <td><span id="squareYards">Sq. Yds.</span></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
         </section>
     </main>
     <script>
-        function openCalculator(evt, calculatorName) {
+         function openCalculator(evt, calculatorName) {
             var i, tabcontent, tablinks;
             tabcontent = document.getElementsByClassName("tabcontent");
             for (i = 0; i < tabcontent.length; i++) {
@@ -315,6 +410,68 @@
 function toggleBlindMode() {
     updateBlindsOutput();
 }
+
+        function openCalculator(evt, calculatorName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(calculatorName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+        function openSubCalculator(evt, subCalculatorName) {
+            var i, subtabcontent, subtablinks;
+            subtabcontent = document.getElementsByClassName("subtabcontent");
+            for (i = 0; i < subtabcontent.length; i++) {
+                subtabcontent[i].style.display = "none";
+            }
+            subtablinks = document.getElementsByClassName("subtablinks");
+            for (i = 0; i < subtablinks.length; i++) {
+                subtablinks[i].className = subtablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(subCalculatorName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+        function calculateLNFT() {
+            const entireRoll = parseFloat(document.getElementById("entireRoll").value) || 0;
+            const tube = parseFloat(document.getElementById("tube").value) || 0;
+            const rings = parseFloat(document.getElementById("rings").value) || 0;
+
+            const diameter = entireRoll + tube;
+            const multiplied = diameter * rings;
+            const totalValue = multiplied * 0.0872;
+            const feet = totalValue / 0.665;
+            
+            document.getElementById("linearFeet").textContent = feet.toFixed(2) + ' Linear Feet';
+        }
+
+        function calculateSQYD() {
+            const entireRoll = parseFloat(document.getElementById("entireRollSQ").value) || 0;
+            const tube = parseFloat(document.getElementById("tubeSQ").value) || 0;
+            const rings = parseFloat(document.getElementById("ringsSQ").value) || 0;
+
+            const diameter = entireRoll + tube;
+            const multiplied = diameter * rings;
+
+            let multiplier = 0.0872; // Default to 6' roll width
+            const rollWidthRadios = document.getElementsByName("rollWidth");
+            for (const radio of rollWidthRadios) {
+                if (radio.checked) {
+                    multiplier = parseFloat(radio.value);
+                    break;
+                }
+            }
+
+            const sqYards = multiplied * multiplier;
+            document.getElementById("squareYards").textContent = sqYards.toFixed(2) + ' Sq. Yds.';
+        }
     </script>
 </body>
 </html>
