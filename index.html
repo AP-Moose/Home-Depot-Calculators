@@ -128,6 +128,43 @@
                 padding: 8px;
             }
         }
+        .roll-width-selector {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .roll-width-option {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 2px solid white;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s, transform 0.1s;
+        }
+
+        .roll-width-option:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .roll-width-option.selected {
+            background-color: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        @media screen and (max-width: 600px) {
+            .roll-width-option {
+                width: 50px;
+                height: 50px;
+                font-size: 16px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -150,19 +187,19 @@
                 <table>
                     <tr>
                         <td><label for="feetInput">Feet:</label></td>
-                        <td><input type="number" id="feetInput" placeholder="Enter feet..." oninput="updateCarpetOutput()"></td>
+                        <td><input type="number" id="feetInput" placeholder="feet" oninput="updateCarpetOutput()"></td>
                     </tr>
                     <tr>
                         <td><label for="inchesInput">Inches:</label></td>
-                        <td><input type="number" id="inchesInput" placeholder="Enter inches..." oninput="updateCarpetOutput()"></td>
+                        <td><input type="number" id="inchesInput" placeholder="inches" oninput="updateCarpetOutput()"></td>
                     </tr>
                     <tr class="fullCarpet">
                         <td><label for="costSqYdInput">Cost per Square Yard:</label></td>
-                        <td><input type="number" id="costSqYdInput" placeholder="Enter cost..." oninput="updateCarpetOutput()"></td>
+                        <td><input type="number" id="costSqYdInput" placeholder="cost" oninput="updateCarpetOutput()"></td>
                     </tr>
                     <tr class="runner hidden">
                         <td><label for="costLinearFootInput">Cost per Linear Foot:</label></td>
-                        <td><input type="number" id="costLinearFootInput" placeholder="Enter cost..." oninput="updateCarpetOutput()"></td>
+                        <td><input type="number" id="costLinearFootInput" placeholder="cost" oninput="updateCarpetOutput()"></td>
                     </tr>
                     <tr>
                         <td>Total Length:</td>
@@ -192,19 +229,19 @@
                 <table>
                     <tr>
                         <td><label for="totalSqFeetInput">Total Square Feet:</label></td>
-                        <td><input type="number" id="totalSqFeetInput" placeholder="Enter total square feet..." oninput="updateFlooringOutput()"></td>
+                        <td><input type="number" id="totalSqFeetInput" placeholder="square feet" oninput="updateFlooringOutput()"></td>
                     </tr>
                     <tr>
                         <td><label for="sqFeetPerBoxInput">Square Feet per Box:</label></td>
-                        <td><input type="number" id="sqFeetPerBoxInput" placeholder="Enter square feet per box..." oninput="updateFlooringOutput()"></td>
+                        <td><input type="number" id="sqFeetPerBoxInput" placeholder="sq. ft. / box" oninput="updateFlooringOutput()"></td>
                     </tr>
                     <tr>
                         <td><label for="costPerBoxInput">Cost per Box:</label></td>
-                        <td><input type="number" id="costPerBoxInput" placeholder="Enter cost per box..." oninput="updateFlooringOutput()"></td>
+                        <td><input type="number" id="costPerBoxInput" placeholder="cost per box" oninput="updateFlooringOutput()"></td>
                     </tr>
                     <tr>
                         <td><label for="extraBoxesInput">Extra Boxes:</label></td>
-                        <td><input type="number" id="extraBoxesInput" placeholder="Enter extra boxes..." oninput="updateFlooringOutput()"></td>
+                        <td><input type="number" id="extraBoxesInput" placeholder="extra boxes" oninput="updateFlooringOutput()"></td>
                     </tr>
                     <tr>
                         <td><strong>Total Boxes Needed:</strong></td>
@@ -226,11 +263,11 @@
                 <table>
                     <tr>
                         <td><label for="windowWidth">Customer Window Width (inches):</label></td>
-                        <td><input type="number" id="windowWidth" placeholder="Enter window width..." oninput="updateBlindsOutput()"></td>
+                        <td><input type="number" id="windowWidth" placeholder="target width" oninput="updateBlindsOutput()"></td>
                     </tr>
                     <tr>
                         <td><label for="startingWidth">Starting Blind/Shade Width (inches):</label></td>
-                        <td><input type="number" id="startingWidth" placeholder="Enter starting width..." oninput="updateBlindsOutput()"></td>
+                        <td><input type="number" id="startingWidth" placeholder="starting width" oninput="updateBlindsOutput()"></td>
                     </tr>
                     <tr>
                         <td><strong>Amount to Cut Off Each Side:</strong></td>
@@ -286,11 +323,11 @@
                         <tr>
                             <td>Roll Width:</td>
                             <td>
-                                <div class="radio-group">
-                                    <label><input type="radio" name="rollWidth" value="0.0872" checked onchange="calculateSQYD()"> 6'</label>
-                                    <label><input type="radio" name="rollWidth" value="0.1454" onchange="calculateSQYD()"> 10'</label>
-                                    <label><input type="radio" name="rollWidth" value="0.1744" onchange="calculateSQYD()"> 12'</label>
-                                    <label><input type="radio" name="rollWidth" value="0.2182" onchange="calculateSQYD()"> 15'</label>
+                                <div class="roll-width-selector">
+                                    <div class="roll-width-option" data-value="0.0872" onclick="selectRollWidth(this)">6'</div>
+                                    <div class="roll-width-option" data-value="0.1454" onclick="selectRollWidth(this)">10'</div>
+                                    <div class="roll-width-option" data-value="0.1744" onclick="selectRollWidth(this)">12'</div>
+                                    <div class="roll-width-option" data-value="0.2182" onclick="selectRollWidth(this)">15'</div>
                                 </div>
                             </td>
                         </tr>
@@ -452,6 +489,13 @@ function toggleBlindMode() {
             document.getElementById("linearFeet").textContent = feet.toFixed(2) + ' Linear Feet';
         }
 
+        function selectRollWidth(element) {
+            const options = document.querySelectorAll('.roll-width-option');
+            options.forEach(option => option.classList.remove('selected'));
+            element.classList.add('selected');
+            calculateSQYD();
+        }
+
         function calculateSQYD() {
             const entireRoll = parseFloat(document.getElementById("entireRollSQ").value) || 0;
             const tube = parseFloat(document.getElementById("tubeSQ").value) || 0;
@@ -460,18 +504,15 @@ function toggleBlindMode() {
             const diameter = entireRoll + tube;
             const multiplied = diameter * rings;
 
-            let multiplier = 0.0872; // Default to 6' roll width
-            const rollWidthRadios = document.getElementsByName("rollWidth");
-            for (const radio of rollWidthRadios) {
-                if (radio.checked) {
-                    multiplier = parseFloat(radio.value);
-                    break;
-                }
-            }
+            const selectedOption = document.querySelector('.roll-width-option.selected');
+            const multiplier = selectedOption ? parseFloat(selectedOption.getAttribute('data-value')) : 0.0872;
 
             const sqYards = multiplied * multiplier;
             document.getElementById("squareYards").textContent = sqYards.toFixed(2) + ' Sq. Yds.';
         }
+
+        // Initialize the first option as selected
+        document.querySelector('.roll-width-option').classList.add('selected');
     </script>
 </body>
 </html>
