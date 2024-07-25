@@ -119,25 +119,30 @@
             padding: 15px;
         }
 
-        @media screen and (max-width: 600px) {
-            body {
-                font-size: 14px;
-            }
-
-            input[type="number"] {
-                padding: 8px;
-            }
+        .roll-width-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
         }
+
+        .roll-width-label {
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
         .roll-width-selector {
             display: flex;
-            flex-wrap: wrap;
+            justify-content: center;
+            flex-wrap: nowrap;
             gap: 10px;
-            margin-top: 10px;
+            width: 100%;
         }
 
         .roll-width-option {
-            width: 60px;
-            height: 60px;
+            flex: 1;
+            min-width: 50px;
+            height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -145,7 +150,7 @@
             border: 2px solid white;
             border-radius: 10px;
             cursor: pointer;
-            font-size: 18px;
+            font-size: 16px;
             transition: background-color 0.3s, transform 0.1s;
         }
 
@@ -159,10 +164,22 @@
         }
 
         @media screen and (max-width: 600px) {
+            body {
+                font-size: 14px;
+            }
+
+            input[type="number"] {
+                padding: 8px;
+            }
+
+            .roll-width-selector {
+                flex-wrap: nowrap;
+            }
+
             .roll-width-option {
-                width: 50px;
-                height: 50px;
-                font-size: 16px;
+                min-width: 40px;
+                height: 40px;
+                font-size: 14px;
             }
         }
     </style>
@@ -299,7 +316,7 @@
                             <td><input type="number" id="rings" placeholder="# Rings" oninput="calculateLNFT()"></td>
                         </tr>
                         <tr>
-                            <td>Linear Feet:</td>
+                            <td><strong>Linear Feet:</strong></td>
                             <td><span id="linearFeet"># Linear Feet</span></td>
                         </tr>
                     </table>
@@ -321,18 +338,20 @@
                             <td><input type="number" id="ringsSQ" placeholder="# Rings" oninput="calculateSQYD()"></td>
                         </tr>
                         <tr>
-                            <td>Roll Width:</td>
-                            <td>
-                                <div class="roll-width-selector">
-                                    <div class="roll-width-option" data-value="0.0872" onclick="selectRollWidth(this)">6'</div>
-                                    <div class="roll-width-option" data-value="0.1454" onclick="selectRollWidth(this)">10'</div>
-                                    <div class="roll-width-option" data-value="0.1744" onclick="selectRollWidth(this)">12'</div>
-                                    <div class="roll-width-option" data-value="0.2182" onclick="selectRollWidth(this)">15'</div>
+                            <td colspan="2">
+                                <div class="roll-width-container">
+                                    <div class="roll-width-label">Roll Width</div>
+                                    <div class="roll-width-selector">
+                                        <div class="roll-width-option" data-value="0.0872" onclick="selectRollWidth(this)">6'</div>
+                                        <div class="roll-width-option" data-value="0.1454" onclick="selectRollWidth(this)">10'</div>
+                                        <div class="roll-width-option" data-value="0.1744" onclick="selectRollWidth(this)">12'</div>
+                                        <div class="roll-width-option" data-value="0.2182" onclick="selectRollWidth(this)">15'</div>
+                                    </div>
                                 </div>
                             </td>
                         </tr>
                         <tr>
-                            <td>Square Yards:</td>
+                            <td><strong>Square Yards:</strong></td>
                             <td><span id="squareYards">Sq. Yds.</span></td>
                         </tr>
                     </table>
